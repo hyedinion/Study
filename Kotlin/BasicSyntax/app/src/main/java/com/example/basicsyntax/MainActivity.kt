@@ -1,5 +1,6 @@
 package com.example.basicsyntax
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -55,13 +56,24 @@ class MainActivity : AppCompatActivity() {
         Log.d("dataclass" , "userData는 ${userData.toString()}, ${userData} ")
         Log.d("dataclass" , "person는 ${person.toString()} , ${person}")
 
-        data class UserData2(var name : String, var age : Int){
-            init {
-                Log.d("UserData", "initialized")
-            }
-            fun process(){
-                //클래스와 동일하게 메서드 사용이 가능
-            }
+        var customView = CustomView( getApplication() )
+
+        //inheritence
+        var child = Child()
+        Log.d("inheritance","자식 입니다.${child.hello}",)
+        child.sayHello()
+        child.myHello()
+        Log.d("inheritance","myhello 실행 후 ${child.hello}",)
+
+        //익스텐션
+        var myClass = MyClass()
+        myClass.sleep()
+
+        //10. 스코프 함수
+        var list = mutableListOf("scope", "function")
+        list.run {
+            val listSize = size //this.size대신에 this를 생략한채로 사용가능
+            Log.d("scope","리스트의 길이 run = $listSize")
         }
 
 
