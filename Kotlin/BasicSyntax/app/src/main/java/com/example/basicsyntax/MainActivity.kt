@@ -24,7 +24,61 @@ class MainActivity : AppCompatActivity() {
         set.add("JAN")
         set.add("FEB")
         set.add("JAN")
-        Log.d("Collection", "Set 전체 출력 = $set")
+        Log.d("Collection", "Set 전체 출력 = ${set}")
+
+        //5. 반복문
+        for (index in 0..102 step 3) {
+            Log.d("For", "현재숫자는 ${index}입니다")//0부터 100까지 3씩 증가
+        }
+        for (index in 10 downTo 0){
+            Log.d("For","현재 숫자는 ${index}")//10부터 0까지
+        }
+
+        //6. 함수
+        printPi()
+        newFunction("Hello")
+        newFunction("Hello", weight = 67.5)
+
+        //7. 클래스
+        Person("hyejin")
+        var person = Person("hyejin",14)
+
+        Pig.printName()
+        val cutePig = Pig()
+        cutePig.walk()
+        //cutePig.printName() //error
+
+        data class UserData(val name : String, var age : Int) // 이 한줄로 정의 가능
+        var userData = UserData("michael", 21) // 일반 class처럼 생성가능
+        //userData.name = "Sindy" // val이기 때문에 수정 불가능
+        userData.age = 18 //var은 수정가능
+        Log.d("dataclass" , "userData는 ${userData.toString()}, ${userData} ")
+        Log.d("dataclass" , "person는 ${person.toString()} , ${person}")
+
+        data class UserData2(var name : String, var age : Int){
+            init {
+                Log.d("UserData", "initialized")
+            }
+            fun process(){
+                //클래스와 동일하게 메서드 사용이 가능
+            }
+        }
+
 
     }
+
+    //6. 함수
+    fun printPi() {
+        Log.d("fun", "pi는 ${PI}입니다.")
+    }
+
+    companion object {
+        const val PI = 3.14
+    }
+
+    fun newFunction(name : String, age : Int = 29, weight : Double = 65.5) {
+        Log.d("fun", "name = ${name} , age = ${age}, weight =  ${weight}입니다")
+    }
+
+
 }
