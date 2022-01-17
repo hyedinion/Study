@@ -1,0 +1,4 @@
+com/example/mvvmbasictut/databinding/ActivityQuotesBinding.java
+ com.example.mvvmbasictut.databinding.ActivityQuotesBinding
+com/example/mvvmbasictut/BuildConfig.java
+ com.example.mvvmbasictut.BuildConfig
