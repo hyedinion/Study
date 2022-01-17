@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk 31
@@ -67,4 +68,53 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+
+}
+
+apply plugin: 'jacoco'
+
+jacoco{
+    toolVersion = "0.8.7"
+    reportsDir = file("${buildDir}/reports")
+}
+
+task coverageReport(type: JacocoReport, dependsOn: 'testDebugUnitTest'){
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    def coverageSourceDirs = ['src/main/java']
+
+    classDirectories.from = fileTree(
+            dir: "${buildDir}/intermediates/javac/debug/classes",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       'com/android/**/*.class']
+    )
+
+    sourceDirectories.from = files(coverageSourceDirs)
+    executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+    //java compiled classes
+    def javaTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: ['**/R.class',
+                                                                                                   '**/R$*.class',
+                                                                                                   '**/BuildConfig.*',
+                                                                                                   '**/Manifest*.*',
+                                                                                                   'com/android/**/*.class'])
+//kotlin compiled classes
+    def kotlinTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: ['**/R.class',
+                                                                                            '**/R$*.class',
+                                                                                            '**/BuildConfig.*',
+                                                                                            '**/Manifest*.*',
+                                                                                            'com/android/**/*.class'])
+//...etc...
+    classDirectories.from = files([javaTree, kotlinTree])
+
+    reports{
+        html.enabled = true
+    }
 }
