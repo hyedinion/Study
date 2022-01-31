@@ -9,8 +9,9 @@ data class Scrap(
     val discription : String,
     val link : String,
     val keyword : String,
-    val scrapDate : Long,
-    val postDate : Long,
+    val scrapDate : String,
+    val postDate : String,
+    val bloggerName : String,
     @PrimaryKey(autoGenerate = true)
     val id : Int? = null
 )
