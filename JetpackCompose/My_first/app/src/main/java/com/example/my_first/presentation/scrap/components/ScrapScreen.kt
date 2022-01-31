@@ -14,10 +14,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.preference.PreferenceManager
 import com.example.my_first.presentation.BottomBar
 import com.example.my_first.presentation.scrap.ScrapEvent
 import com.example.my_first.presentation.scrap.ScrapViewModel
@@ -31,6 +33,12 @@ fun ScrapScreen(
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState() //order창이 열렸는지 state remember
     val scope = rememberCoroutineScope()
+    val shared = PreferenceManager.getDefaultSharedPreferences(LocalContext.current)
+
+    val editor = shared.edit()
+    editor.putString("키","값")
+    editor.apply()
+    val myCheck = shared.getString("키","")
 
     Scaffold(
         floatingActionButton = {
@@ -45,6 +53,7 @@ fun ScrapScreen(
         scaffoldState = scaffoldState
     ) {
         //Appbar
+        Text(text = myCheck?:"")
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,7 +66,7 @@ fun ScrapScreen(
             ) {
                 Text(
                     text = "your Scrap",
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.h6
                 )
                 IconButton(
                     onClick = {
@@ -97,13 +106,9 @@ fun ScrapScreen(
                         scrap = scrap,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable{
+                            .clickable {
 
-                            },
-                        onDeleteClick = {
-                            viewModel.onEvent(ScrapEvent.DeleteScrap(scrap))
-
-                        }
+                            }
                     )
 
                 }

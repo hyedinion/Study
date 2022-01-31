@@ -5,6 +5,7 @@ import com.example.my_first.domain.model.Scrap
 import com.example.my_first.domain.repository.ScrapRepository
 import kotlinx.coroutines.flow.Flow
 
+
 class ScrapRepositoryImpl(
     private val dao : ScrapDao
 ) : ScrapRepository {

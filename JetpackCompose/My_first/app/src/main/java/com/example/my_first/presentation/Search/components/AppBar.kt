@@ -1,7 +1,10 @@
 package com.example.my_first.presentation.Search.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -27,30 +30,28 @@ import com.example.my_first.ui.theme.My_firstTheme
 fun SearchAppBar(
     text : String, //typing된 text 나타냄
     onTextChange : (String) -> Unit,
-    onCloseClicked : () -> Unit,
     onSearchClicked : (String) -> Unit,
 ){
-    var text by remember { mutableStateOf("") }
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
+    Card(
+        modifier = Modifier.padding(horizontal = 56.dp, vertical = 10.dp)
             .height(56.dp),
-        elevation = AppBarDefaults.TopAppBarElevation,
-        color = MaterialTheme.colors.primary
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(1.dp, Color.Black),
+        backgroundColor = Color.White
     ) {
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth(),
             value = text,
-            //onValueChange = {onTextChange(it)},
-            onValueChange = {text = it},
+            onValueChange = {onTextChange(it)},
             placeholder = { //hint 속성인듯
                 Text(
                     //alpha == 불투명도 설정, 1f : 불투명, 0f : 투명
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
-                    text = "search here ...",
-                    color = Color.White
+                    text = "검색어를 입력하세요",
+                    color = Color.Black
                 )
             },
             textStyle = TextStyle(
@@ -66,28 +67,7 @@ fun SearchAppBar(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "search icon",
-                        tint = Color.White
-
-                    )
-
-                }
-            },
-            //textfield 옆에 X 아이콘
-            trailingIcon = {
-                IconButton(
-                    onClick = {
-                        //close 버튼을 눌렀을 때
-                        if(text.isNotEmpty()){
-                            onTextChange("")//text 초기화
-                        }else{
-                            onCloseClicked()
-                        }
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "close icon",
-                        tint = Color.White
+                        tint = Color.Black
 
                     )
 
@@ -104,7 +84,7 @@ fun SearchAppBar(
             //textField color가 surface color를 없애 버림, 여기서 수정해 줘야함
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
-                cursorColor = Color.White.copy(alpha = ContentAlpha.medium)
+                cursorColor = Color.Gray.copy(alpha = ContentAlpha.medium)
             )
         )
     }
@@ -119,7 +99,6 @@ fun AppBarPreview() {
         SearchAppBar(
             text = "",
             onTextChange = {},
-            onCloseClicked = {},
             onSearchClicked = {}
         )
     }
