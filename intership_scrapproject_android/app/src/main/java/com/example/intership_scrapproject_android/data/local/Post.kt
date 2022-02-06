@@ -16,3 +16,5 @@ data class Post(
     @PrimaryKey(autoGenerate = true)
     val id : Int? = null
 )
+
+class InvalidPostException(message : String) : Exception(message)

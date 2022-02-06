@@ -4,11 +4,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
 
-    fun getPost() : Flow<List<Post>>
+    fun getPost() : Resource<Flow<List<Post>>>
 
-    fun getPostByLink(link : String) : Flow<Post>?
+    suspend fun getPostByLink(link : String) : Resource<Post?>
 
-    suspend fun insertPost(post: Post)
+    suspend fun insertPost(post: Post) : Resource<Unit>
 
-    suspend fun deletePost(post: Post)
+    suspend fun deletePost(post: Post) : Resource<Int>
 }

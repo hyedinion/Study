@@ -35,7 +35,7 @@ class PostRepositoryImplTest {
     }
 
     @Test
-    fun insertPostTest() = runBlocking{
+    fun insertPostTest(): Unit = runBlocking{
         //given
         val post = Post("title","description","link","keyword","20220125","20220125","bloggerName",id=1)
 
@@ -43,14 +43,14 @@ class PostRepositoryImplTest {
         repository.insertPost(post)
 
         //then
-        repository.getPost().test {
+        repository.getPost().data?.test {
             val allPost = awaitItem()
             assertThat(allPost).contains(post)
         }
     }
 
     @Test
-    fun deletePostTest() = runBlocking {
+    fun deletePostTest(): Unit = runBlocking {
         //given
         val post = Post("title","description","link","keyword","20220125","20220125","bloggerName",id=1)
         repository.insertPost(post)
@@ -59,11 +59,23 @@ class PostRepositoryImplTest {
         repository.deletePost(post)
 
         //then
-        repository.getPost().test {
+        repository.getPost().data?.test {
             val allPost = awaitItem()
             assertThat(allPost).doesNotContain(post)
         }
 
+    }
+
+    @Test
+    fun deletePostTest_Fail(): Unit = runBlocking {
+        //given
+        val post = Post("title","description","link","keyword","20220125","20220125","bloggerName",id=1)
+
+        //when
+        val result = repository.deletePost(post)
+
+        //then
+        assertThat(result.data).isEqualTo(0)
     }
 
     @Test
@@ -74,11 +86,10 @@ class PostRepositoryImplTest {
         repository.insertPost(post)
 
         //when
-        repository.getPostByLink(link)?.test {
-            //then
-            val postResultByLink = awaitItem()
-            assertThat(postResultByLink).isEqualTo(post)
-        }
+        val postResultByLink = repository.getPostByLink(link)
+
+        //then
+        assertThat(postResultByLink.data).isEqualTo(post)
     }
 
     @Test
@@ -89,15 +100,10 @@ class PostRepositoryImplTest {
         repository.insertPost(post)
 
         //when
-        val result = repository.getPostByLink("")?.test {
-            val postResultByLink = awaitItem()
-            if (postResultByLink!=null){
-                assert(false)
-            }
-        }?:{
-            //then
-            assert(true)
-        }
+        val postResultByLink = repository.getPostByLink(" ")
+
+        //then
+        assertThat(postResultByLink.data).isNull()
 
     }
 

@@ -17,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.HttpException
 import retrofit2.Response
 import org.mockito.ArgumentMatchers.anyString
+import java.io.IOException
 
 
 @RunWith(MockitoJUnitRunner::class)

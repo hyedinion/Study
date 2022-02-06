@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.intership_scrapproject_android.core.util.TestTags
 import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 
 
@@ -36,7 +38,7 @@ fun BlogSearchAppBar(
     Row {
         Card(
             modifier = Modifier
-                .padding(start = 10.dp,top = 10.dp,bottom=10.dp)
+                .padding(start = 10.dp,top = 10.dp)
                 .weight(6f),
             shape = RoundedCornerShape(15.dp),
             border = BorderStroke(1.dp, Color.Black),
@@ -45,7 +47,8 @@ fun BlogSearchAppBar(
 
             TextField(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .testTag("searchBar"),
                 value = text,
                 onValueChange = { onTextChange(it) },
                 placeholder = { //hint 속성
@@ -100,7 +103,8 @@ fun BlogSearchAppBar(
             if (isBlogSearchLayoutList) {
                 Icon(
                     modifier = Modifier
-                        .size(30.dp),
+                        .size(30.dp)
+                        .testTag(TestTags.GirdButton),
                     imageVector = Icons.Default.GridOn,
                     contentDescription = "grid icon",
                     tint = Color.Black
@@ -110,7 +114,8 @@ fun BlogSearchAppBar(
             else{
                 Icon(
                     modifier = Modifier
-                        .size(40.dp),
+                        .size(40.dp)
+                        .testTag(TestTags.RowButton),
                     imageVector = Icons.Default.List,
                     contentDescription = "list icon",
                     tint = Color.Black

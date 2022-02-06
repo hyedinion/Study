@@ -1,25 +1,33 @@
 package com.example.intership_scrapproject_android.di
 
+
 import com.example.intership_scrapproject_android.data.remote.BlogSearchAPI
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.hilt.testing.TestInstallIn
+import org.junit.Rule
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [ApiModule::class]
+)
 class TestApiModule {
+
+    @get:Rule
+    var rule: MockitoRule = MockitoJUnit.rule()
 
     @Singleton
     @Provides
-    fun provideSearchAPI() : BlogSearchAPI {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://openapi.naver.com")
-            .build()
-            .create(BlogSearchAPI::class.java)
+    fun provideTestSearchAPI() : BlogSearchAPI {
+//        val mockApi = Mockito.mock(BlogSearchAPI::class.java)
+//        given(mockApi.searchBlog(anyString(),anyString(),anyString(), anyInt(),anyInt()))
+//            .willReturn(BlogSearchPagingSourceTest.blogSearchResponse)
+        return Mockito.mock(BlogSearchAPI::class.java)
     }
 }

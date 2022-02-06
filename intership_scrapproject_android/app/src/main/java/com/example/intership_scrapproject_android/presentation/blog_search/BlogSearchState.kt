@@ -9,4 +9,6 @@ data class BlogSearchState(
     val blogSearchText : String = "",
     val blogSearchResult : Flow<PagingData<BlogSearchItem>>? = null,//scrap 목록 상태
     val isRefreshing : Boolean = false,
+    val showToastMessage : Boolean = false,
+    val toastErrorMessage : String = "",
 )

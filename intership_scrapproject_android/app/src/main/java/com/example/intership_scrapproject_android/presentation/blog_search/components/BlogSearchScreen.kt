@@ -1,6 +1,8 @@
-package com.example.my_first.presentation.Search
+package com.example.intership_scrapproject_android.presentation.blog_search.components
 
-import android.util.Log
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -8,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,16 +22,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
 import com.example.intership_scrapproject_android.presentation.blog_search.BlogSearchEvent
 import com.example.intership_scrapproject_android.presentation.blog_search.BlogSearchViewModel
-import com.example.intership_scrapproject_android.presentation.blog_search.components.BlogSearchAppBar
-import com.example.intership_scrapproject_android.presentation.blog_search.components.BlogSearchErrorSnackBar
-import com.example.intership_scrapproject_android.presentation.blog_search.components.BlogSearchGrid
-import com.example.intership_scrapproject_android.presentation.blog_search.components.BlogSearchList
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBar
-import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.N)
 @ExperimentalComposeUiApi
 @Composable
 fun BlogSearchScreen(
@@ -69,8 +68,7 @@ fun BlogSearchScreen(
         ) {
             Box (
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .fillMaxSize()
             ){
                 if (lazyBlogSearchItems == null) {
                     Text(
@@ -88,12 +86,25 @@ fun BlogSearchScreen(
                     )
                 } else {
                     if (state.isBlogSearchLayoutList) {
-                        BlogSearchList(lazyBlogSearchItems)
+                        BlogSearchList(
+                            lazyBlogSearchItems,
+                            navController,
+                            state.blogSearchText
+                        )
                     } else {
-                        BlogSearchGrid(lazyBlogSearchItems)
+                        BlogSearchGrid(
+                            lazyBlogSearchItems,
+                            navController,
+                            state.blogSearchText
+                        )
                     }
                 }
             }
+        }
+
+        if (state.showToastMessage){
+            viewModel.onEvent(BlogSearchEvent.ShowErrorToastHandled)
+            Toast.makeText(LocalContext.current,state.toastErrorMessage,Toast.LENGTH_LONG).show()
         }
 
         lazyBlogSearchItems?.apply {
@@ -124,13 +135,4 @@ fun BlogSearchScreen(
         }
 
     }
-}
-
-@ExperimentalComposeUiApi
-@Preview(showBackground = true)
-@Composable
-fun BlogSearchScreenPreview() {
-    val navController = rememberNavController()
-    BlogSearchScreen(navController)
-
 }

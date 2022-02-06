@@ -21,13 +21,6 @@ fun BlogSearchItemBox(
     modifier : Modifier = Modifier,
     scrapped : Boolean = false
 ){
-    var postDate = ""
-    if (item.postdate.isNotEmpty()) {
-        postDate =
-            item.postdate.substring(0..3) + "." + item.postdate.substring(4..5) + "." + item.postdate.substring(
-                6..7
-            )
-    }
     Box (
         modifier = modifier
             .fillMaxWidth()
@@ -35,17 +28,16 @@ fun BlogSearchItemBox(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
-                .padding(end = 32.dp)
+                .padding(15.dp)
         ) {
             Text(
                 text = item.bloggername,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.h6,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = postDate,
+                text = item.postdate,
                 style = MaterialTheme.typography.body2,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -53,7 +45,7 @@ fun BlogSearchItemBox(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.h5,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -96,7 +88,7 @@ fun BlogSearchItemPreview() {
         description = "(아까워서 못 까겠다.) Happy New Year, 라고 적기 전에 잡소리를 너무 길게 남긴 것 같아 좀 부끄럽다. 보기 싫은데 새 글 떠서 억지로 보게 될 이웃님들께는 그저 죄송할 따름이지만... 그냥 길고 힘들었던 2021년을... ",
         link = "https://blog.naver.com/sub_cat?Redirect=Log&logNo=222609846359",
         postdate = "20211231",
-        )
+    )
     IntershipScrapProjectAndroidTheme {
         LazyColumn {
             item {  BlogSearchItemBox(item, scrapped = true) }
