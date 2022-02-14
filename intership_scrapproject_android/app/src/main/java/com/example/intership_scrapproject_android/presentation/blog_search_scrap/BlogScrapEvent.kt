@@ -10,4 +10,5 @@ sealed class BlogScrapEvent {
     data class BlogScrapButtonClicked(val blogSearchItem: BlogSearchItem, val keyword : String) : BlogScrapEvent()
     object ShowInsertErrorToastHandled : BlogScrapEvent()
     object ShowBlankErrorToastHandled : BlogScrapEvent()
+    object MoveScreenHandled : BlogScrapEvent()
 }

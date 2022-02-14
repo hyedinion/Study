@@ -29,7 +29,7 @@ class BlogSearchUseCase(
 
         val result = blogSearchRepository.getBlogSearchResult(query).map { pagingData ->
             pagingData.map { blogSearchItem ->
-                postDateFormat(blogSearchItem.postdate)
+                blogSearchItem.postdate = postDateFormat(blogSearchItem.postdate)
                 blogSearchItem.title = htmlToString(blogSearchItem.title)
                 blogSearchItem.description = htmlToString(blogSearchItem.description)
 

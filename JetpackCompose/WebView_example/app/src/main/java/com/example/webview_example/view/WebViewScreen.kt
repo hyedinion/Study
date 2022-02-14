@@ -1,5 +1,6 @@
 package com.example.webview_example.view
 
+import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -44,21 +45,11 @@ fun WebViewScreen(url : String){
         Column {
             AndroidView(
                 factory = {
-                    WebView(it).apply{
-                        webViewClient = object : WebViewClient(){
-                            override fun shouldOverrideUrlLoading(
-                                view: WebView?,
-                                request: WebResourceRequest?
-                            ): Boolean {
-                                return false
-                            }
-                        }
+                    WebView(it).apply {
+                        webViewClient = WebViewClient()
+                        loadUrl(url)
                     }
-                },
-                update = {
-                    it.loadUrl("https:$url")
                 }
-
             )
         }
 

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.TurnedIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -98,7 +97,10 @@ fun BlogDetailScreenPreview() {
         postdate = "20211231",
     )
     IntershipScrapProjectAndroidTheme {
-        BlogDetailItem(item, "search")
+        BlogDetailItem(
+            item,
+            "search"
+        )
     }
 
 }

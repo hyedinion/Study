@@ -29,11 +29,10 @@ fun PostAppBar(
             .fillMaxWidth()
     ) {
 
-        lateinit var orderText : String
-        when(orderType){
-            OrderType.SCRAP_DATE -> orderText = "최근 스크랩순"
-            OrderType.POST_DATE -> orderText = "최근 등록순"
-            OrderType.KEYWORD -> orderText = "키워드별"
+        val orderText : String = when(orderType){
+            OrderType.SCRAP_DATE -> "최근 스크랩순"
+            OrderType.POST_DATE -> "최근 등록순"
+            OrderType.KEYWORD -> "키워드별"
         }
 
         Row(
@@ -56,16 +55,16 @@ fun PostAppBar(
                     Icon(
                         modifier = Modifier
                             .size(30.dp),
-                        imageVector = Icons.Filled.ArrowDropDown,
-                        contentDescription = "postOrderSectionDropDownIcon",
+                        imageVector = Icons.Filled.ArrowDropUp,
+                        contentDescription = "postOrderSectionDropUpIcon",
                     )
                 }
                 else{
                     Icon(
                         modifier = Modifier
                             .size(30.dp),
-                        imageVector = Icons.Filled.ArrowDropUp,
-                        contentDescription = "postOrderSectionDropUpIcon",
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = "postOrderSectionDropDownIcon",
                     )
                 }
             }

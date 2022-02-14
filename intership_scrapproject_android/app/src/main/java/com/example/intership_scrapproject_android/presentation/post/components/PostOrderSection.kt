@@ -17,7 +17,7 @@ import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProject
 
 @Composable
 fun PostOrderSection(
-    orderType: OrderType = OrderType.KEYWORD,
+    orderType: OrderType,
     onOrderChange : (OrderType) -> Unit
 ) {
     Row(
@@ -25,41 +25,34 @@ fun PostOrderSection(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
+
+        var scrapDateColor = Color.Unspecified
+        var postDateColor = Color.Unspecified
+        var keywordColor = Color.Unspecified
+
+        when(orderType){
+            OrderType.SCRAP_DATE -> scrapDateColor = MaterialTheme.colors.primary
+            OrderType.POST_DATE -> postDateColor = MaterialTheme.colors.primary
+            OrderType.KEYWORD -> keywordColor = MaterialTheme.colors.primary
+        }
+
         TextButton(onClick = { onOrderChange(OrderType.SCRAP_DATE) }) {
-            if(orderType==OrderType.SCRAP_DATE) {
-                Text(
-                    text = "최근 스크랩순",
-                    color = MaterialTheme.colors.primary
-                )
-            }else{
-                Text(
-                    text = "최근 스크랩순",
-                )
-            }
+            Text(
+                text = "최근 스크랩순",
+                color = scrapDateColor
+            )
         }
         TextButton(onClick = { onOrderChange(OrderType.POST_DATE) }) {
-            if(orderType==OrderType.POST_DATE) {
-                Text(
-                    text = "최근 등록순",
-                    color = MaterialTheme.colors.primary
-                )
-            }else{
-                Text(
-                    text = "최근 등록순",
-                )
-            }
+            Text(
+                text = "최근 등록순",
+                color = postDateColor
+            )
         }
         TextButton(onClick = { onOrderChange(OrderType.KEYWORD) }) {
-            if(orderType==OrderType.KEYWORD) {
-                Text(
-                    text = "키워드별",
-                    color = MaterialTheme.colors.primary
-                )
-            }else{
-                Text(
-                    text = "키워드별",
-                )
-            }
+            Text(
+                text = "키워드순",
+                color = keywordColor
+            )
         }
 
     }

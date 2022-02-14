@@ -1,5 +1,6 @@
 package com.example.intership_scrapproject_android.presentation.blog_search.components
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -11,6 +12,7 @@ import com.example.intership_scrapproject_android.BlogSearchResult
 import com.example.intership_scrapproject_android.core.util.TestTags
 import com.example.intership_scrapproject_android.data.remote.BlogSearchAPI
 import com.example.intership_scrapproject_android.presentation.main.MainActivity
+import com.example.intership_scrapproject_android.presentation.main.ScrapNavHost
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBarRoute
 import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -38,24 +40,16 @@ class BlogSearchScreenTest{
     @Inject lateinit var blogSearchApi : BlogSearchAPI
 
 
+    @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     @Before
     fun setup(){
         hiltRule.inject()
 
         composeRule.setContent {
-            val navController = rememberNavController()
-            IntershipScrapProjectAndroidTheme{
-                NavHost(
-                    navController = navController,
-                    startDestination = BottomBarRoute.BlogSearch.route
-                ){
-                    composable(route = BottomBarRoute.BlogSearch.route){
-                        BlogSearchScreen(navController = navController)
-                    }
-
-                }
-
+            IntershipScrapProjectAndroidTheme {
+                val navController = rememberNavController()
+                ScrapNavHost(navController = navController)
             }
         }
     }

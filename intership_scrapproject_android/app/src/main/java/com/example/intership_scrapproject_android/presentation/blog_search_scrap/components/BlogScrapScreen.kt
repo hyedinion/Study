@@ -6,17 +6,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
-import com.example.intership_scrapproject_android.presentation.blog_search.BlogSearchEvent
 import com.example.intership_scrapproject_android.presentation.blog_search_scrap.BlogScrapEvent
 import com.example.intership_scrapproject_android.presentation.blog_search_scrap.BlogScrapViewModel
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBar
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBarRoute
-import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -39,21 +35,23 @@ fun BlogScrapScreen(
     Scaffold(
         topBar = {
             BlogScrapAppBar(
-                onBackPress = {navController.popBackStack()},
+                onBackPress = { navController.popBackStack() },
                 onInsertButtonPress = {
                     blog?.title = state.blogScrapTitle
                     blog?.description = state.blogScrapDescription
-                    viewModel.onEvent(BlogScrapEvent.BlogScrapButtonClicked(
-                        blogSearchItem = blog ?: BlogSearchItem(
-                            bloggerlink = "",
-                            bloggername = "",
-                            title = "",
-                            description = "",
-                            link = "",
-                            postdate = "",
-                        ),
-                        keyword = keyword ?: "",
-                    ))
+                    viewModel.onEvent(
+                        BlogScrapEvent.BlogScrapButtonClicked(
+                            blogSearchItem = blog ?: BlogSearchItem(
+                                bloggerlink = "",
+                                bloggername = "",
+                                title = "",
+                                description = "",
+                                link = "",
+                                postdate = "",
+                            ),
+                            keyword = keyword ?: "",
+                        )
+                    )
                 },
             )
         },
@@ -73,9 +71,15 @@ fun BlogScrapScreen(
             ),
             keyword = keyword ?: "",
             title = state.blogScrapTitle,
-            onTitleTextChange = {viewModel.onEvent(BlogScrapEvent.BlogScrapTitleChange(it))},
+            onTitleTextChange = { viewModel.onEvent(BlogScrapEvent.BlogScrapTitleChange(it)) },
             description = state.blogScrapDescription,
-            onDescriptionTextChange = {viewModel.onEvent(BlogScrapEvent.BlogScrapDescriptionChange(it))},
+            onDescriptionTextChange = {
+                viewModel.onEvent(
+                    BlogScrapEvent.BlogScrapDescriptionChange(
+                        it
+                    )
+                )
+            },
         )
     }
 
@@ -91,6 +95,8 @@ fun BlogScrapScreen(
 
     if (state.saveBlogSuccess){
         navController.popBackStack(BottomBarRoute.BlogSearch.route,false)
+        viewModel.onEvent(BlogScrapEvent.MoveScreenHandled)
+        Toast.makeText(LocalContext.current,"blog가 Scrap되었습니다.", Toast.LENGTH_LONG).show()
     }
 
 

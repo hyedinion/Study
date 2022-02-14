@@ -20,12 +20,12 @@ fun BlogDetailScreen(
     Scaffold(
         topBar = {
             BlogDetailAppBar(
-                onBackPress = {navController.popBackStack()},
+                onBackPress = { navController.popBackStack() },
                 onScrapButtonPress = {
-                    navController.currentBackStackEntry?.savedStateHandle?.set("blog",blog)
-                    navController.currentBackStackEntry?.savedStateHandle?.set("keyword",keyword)
+                    navController.currentBackStackEntry?.savedStateHandle?.set("blog", blog)
+                    navController.currentBackStackEntry?.savedStateHandle?.set("keyword", keyword)
                     navController.navigate("blogSearchScrap")
-                 },
+                },
             )
         },
         bottomBar = {
@@ -64,6 +64,10 @@ fun BlogSearchScreenPreview() {
     )
 
     IntershipScrapProjectAndroidTheme {
-        BlogDetailScreen(navController, item, "search")
+        BlogDetailScreen(
+            navController,
+            item,
+            "search"
+        )
     }
 }

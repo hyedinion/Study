@@ -5,7 +5,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 
 class BlogSearchRepositoryImpl (
     private val blogSearchAPI: BlogSearchAPI
@@ -18,6 +20,6 @@ class BlogSearchRepositoryImpl (
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { BlogSearchPagingSource(blogSearchAPI, query) }
-        ).flow
+        ).flow.flowOn(Dispatchers.IO)
     }
 }

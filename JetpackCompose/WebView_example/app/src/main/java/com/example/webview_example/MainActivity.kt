@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WebView_exampleTheme {
-                WebViewScreen("naver.com")
+                WebViewScreen("https://m.blog.naver.com/ialod?Redirect=Log&logNo=222623070526")
 
             }
         }

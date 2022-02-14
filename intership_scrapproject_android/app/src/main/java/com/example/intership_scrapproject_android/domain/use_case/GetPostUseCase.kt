@@ -1,5 +1,6 @@
 package com.example.intership_scrapproject_android.domain.use_case
 
+import android.util.Log
 import com.example.intership_scrapproject_android.core.util.OrderType
 import com.example.intership_scrapproject_android.data.local.Post
 import com.example.intership_scrapproject_android.data.local.PostRepository
@@ -12,20 +13,20 @@ class GetPostUseCase(
     private val postRepository : PostRepository
 ) {
     operator fun invoke(
-        postOrder : OrderType = OrderType.SCRAP_DATE
+        postOrder : OrderType
     ) : Resource<Flow<List<Post>>>  {
 
-        val posts = postRepository.getPost()
+        val postRepositoryResult = postRepository.getPost()
 
-        if (posts.status==Status.ERROR){
-            return posts
+        if (postRepositoryResult.status==Status.ERROR){
+            return postRepositoryResult
         }
 
-        val resultPosts = posts.data?.map { posts ->
+        val resultPosts = postRepositoryResult.data?.map { posts ->
             when(postOrder){
                 OrderType.SCRAP_DATE -> posts.sortedByDescending { it.scrapDate }
                 OrderType.POST_DATE -> posts.sortedByDescending { it.postDate }
-                OrderType.KEYWORD -> posts.sortedByDescending { it.keyword.lowercase() }
+                OrderType.KEYWORD -> posts.sortedBy { it.keyword.lowercase() }
             }
         }
 

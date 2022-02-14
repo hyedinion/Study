@@ -1,4 +1,4 @@
-package com.example.intership_scrapproject_android.presentation.blog_search_scrap
+package com.example.intership_scrapproject_android.presentation.post_edit
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,52 +6,47 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.intership_scrapproject_android.data.local.Post
 import com.example.intership_scrapproject_android.data.local.Status
-import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
 import com.example.intership_scrapproject_android.domain.use_case.InsertPostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
-class BlogScrapViewModel @Inject constructor(
+class PostEditViewModel @Inject constructor(
     private val insertPost : InsertPostUseCase
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(BlogScrapState())
-    val state: State<BlogScrapState> = _state
+    private val _state = mutableStateOf(PostEditState())
+    val state: State<PostEditState> = _state
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onEvent(event: BlogScrapEvent) {
+    fun onEvent(event: PostEditEvent) {
         when (event) {
-            is BlogScrapEvent.InitBlogScrapTitleDescription -> {
+            is PostEditEvent.InitEditPost -> {
                 _state.value = state.value.copy(
-                    blogScrapTitle = event.title,
-                    blogScrapDescription = event.description,
-                    initBlogScrapPost = false
+                    postEditTitle = event.post.title,
+                    postEditDescription = event.post.description,
+                    initEditPost = false
                 )
             }
-            is BlogScrapEvent.BlogScrapTitleChange -> {
+            is PostEditEvent.PostEditTitleChange -> {
                 _state.value = state.value.copy(
-                    blogScrapTitle = event.title
+                    postEditTitle = event.title
                 )
             }
-            is BlogScrapEvent.BlogScrapDescriptionChange -> {
+            is PostEditEvent.PostEditDescriptionChange -> {
                 _state.value = state.value.copy(
-                    blogScrapDescription = event.description
+                    postEditDescription = event.description
                 )
             }
-            is BlogScrapEvent.BlogScrapButtonClicked -> {
+            is PostEditEvent.PostEditButtonClicked -> {
                 viewModelScope.launch {
-                    val newPost = blogSearchItemToPost(event.blogSearchItem,event.keyword)
                     try{
-                        val insertPostResult = insertPost(newPost)
+                        val insertPostResult = insertPost(event.post)
                         if(insertPostResult.status == Status.SUCCESS){
                             _state.value = state.value.copy(
-                                saveBlogSuccess = true
+                                EditPostSuccess = true
                             )
                         }
                         else{
@@ -69,38 +64,27 @@ class BlogScrapViewModel @Inject constructor(
                     }
                 }
             }
-            is BlogScrapEvent.ShowInsertErrorToastHandled -> {
+            is PostEditEvent.ShowInsertErrorToastHandled -> {
                 _state.value = state.value.copy(
                     showInsertErrorToastMessage = false
                 )
             }
-            is BlogScrapEvent.ShowBlankErrorToastHandled -> {
+            is PostEditEvent.ShowBlankErrorToastHandled -> {
                 _state.value = state.value.copy(
                     showBlankToastMessage = false
                 )
             }
-            is BlogScrapEvent.MoveScreenHandled -> {
+            is PostEditEvent.MoveScreenHandled -> {
                 _state.value = state.value.copy(
-                    saveBlogSuccess = false
+                    EditPostSuccess = false
+                )
+            }
+            is PostEditEvent.changeActivateMode -> {
+                _state.value = state.value.copy(
+                    editModeActivate = !state.value.editModeActivate
                 )
             }
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun blogSearchItemToPost(blogSearchItem : BlogSearchItem, keyword : String) : Post {
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd:hh.mm.ss")
-        val formatted = current.format(formatter)
-        return Post(
-            title = blogSearchItem.title,
-            description = blogSearchItem.description,
-            link = blogSearchItem.link,
-            keyword = keyword,
-            postDate = blogSearchItem.postdate,
-            bloggerName = blogSearchItem.bloggername,
-            scrapDate = formatted
-        )
     }
 
 }

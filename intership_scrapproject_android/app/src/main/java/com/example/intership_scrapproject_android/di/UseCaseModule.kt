@@ -2,9 +2,7 @@ package com.example.intership_scrapproject_android.di
 
 import com.example.intership_scrapproject_android.data.local.PostRepository
 import com.example.intership_scrapproject_android.data.remote.BlogSearchRepository
-import com.example.intership_scrapproject_android.domain.use_case.BlogSearchUseCase
-import com.example.intership_scrapproject_android.domain.use_case.GetPostUseCase
-import com.example.intership_scrapproject_android.domain.use_case.InsertPostUseCase
+import com.example.intership_scrapproject_android.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +36,21 @@ class UseCaseModule {
         postRepository : PostRepository
     ): GetPostUseCase{
         return GetPostUseCase(postRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeletePostUseCase(
+        postRepository : PostRepository
+    ): DeletePostUseCase {
+        return DeletePostUseCase(postRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostSearchUseCaseUseCase(
+        postRepository : PostRepository
+    ): PostSearchUseCase {
+        return PostSearchUseCase(postRepository)
     }
 }
