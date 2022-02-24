@@ -11,9 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.example.intership_scrapproject_android.data.local.Post
-import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
 import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 
 @Composable

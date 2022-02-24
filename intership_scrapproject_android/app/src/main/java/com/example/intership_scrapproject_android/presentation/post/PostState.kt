@@ -8,4 +8,7 @@ data class PostState(
     val postOrder: OrderType = OrderType.SCRAP_DATE,
     val isOrderSectionVisible : Boolean = false,
     val initBlogScrapPostNeed : Boolean = true,
+    val deletePostSuccess : Boolean = false,
+    val showDeleteErrorToastMessage : Boolean = false,
+    val DeleteErrorToastMessage : String = "",
 )

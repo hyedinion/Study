@@ -37,21 +37,20 @@ fun BlogScrapScreen(
             BlogScrapAppBar(
                 onBackPress = { navController.popBackStack() },
                 onInsertButtonPress = {
-                    blog?.title = state.blogScrapTitle
-                    blog?.description = state.blogScrapDescription
                     viewModel.onEvent(
                         BlogScrapEvent.BlogScrapButtonClicked(
-                            blogSearchItem = blog ?: BlogSearchItem(
-                                bloggerlink = "",
-                                bloggername = "",
-                                title = "",
-                                description = "",
-                                link = "",
-                                postdate = "",
+                            blogSearchItem = BlogSearchItem(
+                                bloggerlink = blog?.bloggerlink?:"",
+                                bloggername = blog?.bloggername?:"",
+                                title = state.blogScrapTitle,
+                                description = state.blogScrapDescription,
+                                link = blog?.link?:"",
+                                postdate = blog?.postdate?:"",
                             ),
                             keyword = keyword ?: "",
                         )
                     )
+                    blog?.linkExist = true
                 },
             )
         },

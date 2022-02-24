@@ -1,6 +1,8 @@
 package com.example.intership_scrapproject_android.presentation.blog_search.components
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -40,6 +42,8 @@ class BlogSearchScreenTest{
     @Inject lateinit var blogSearchApi : BlogSearchAPI
 
 
+    @ExperimentalFoundationApi
+    @ExperimentalMaterialApi
     @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     @Before

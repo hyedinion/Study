@@ -1,11 +1,15 @@
 package com.example.intership_scrapproject_android.presentation.post
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.intership_scrapproject_android.core.util.OrderType
+import com.example.intership_scrapproject_android.data.local.Status
+import com.example.intership_scrapproject_android.domain.use_case.DeletePostUseCase
 import com.example.intership_scrapproject_android.domain.use_case.GetPostUseCase
+import com.example.intership_scrapproject_android.presentation.post_detail.PostDetailEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
-    private val getPostsUseCase : GetPostUseCase
+    private val getPostsUseCase : GetPostUseCase,
+    private val deletePostUseCase: DeletePostUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(PostState())
@@ -40,6 +45,40 @@ class PostViewModel @Inject constructor(
                     isOrderSectionVisible = !state.value.isOrderSectionVisible
                 )
             }
+            is PostEvent.DeletePost -> {
+                viewModelScope.launch {
+                    try {
+                        val deletePostResult = deletePostUseCase(event.post)
+                        if (deletePostResult.status == Status.SUCCESS) {
+                            _state.value = state.value.copy(
+                                deletePostSuccess = true
+                            )
+                        } else {
+                            _state.value = state.value.copy(
+                                DeleteErrorToastMessage = deletePostResult.message.toString(),
+                                showDeleteErrorToastMessage = true
+                            )
+                        }
+                    } catch (e: Exception) {
+                        _state.value = state.value.copy(
+                            DeleteErrorToastMessage = e.message.toString(),
+                            showDeleteErrorToastMessage = true
+                        )
+
+                    }
+                }
+            }
+            is PostEvent.ShowDeleteErrorToastHandled -> {
+                _state.value = state.value.copy(
+                    DeleteErrorToastMessage = "",
+                    showDeleteErrorToastMessage = false
+                )
+            }
+            is PostEvent.deletePostHandled -> {
+                _state.value = state.value.copy(
+                    deletePostSuccess = false
+                )
+            }
         }
     }
 
@@ -51,6 +90,7 @@ class PostViewModel @Inject constructor(
                     posts = posts,
                     postOrder = postOrder
                 )
+                Log.d("hi테스트","hi")
             }
             ?.launchIn(viewModelScope)
 

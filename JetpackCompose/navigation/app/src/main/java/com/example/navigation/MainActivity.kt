@@ -1,9 +1,11 @@
 package com.example.navigation
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +19,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.navigation.ui.theme.NavigationTheme
+import kotlinx.android.parcel.Parcelize
+import java.net.URLEncoder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     ThirdScreen(
                         navController = navController,
                         //번들로 값을 받아옴
-                        value = backStackEntry.arguments?.getString("value")?:"")
+                        value = backStackEntry.arguments?.getParcelable("value")?:Hi("fail",-1)
+                    )
                 }
             }
 
@@ -73,7 +78,9 @@ fun FirstScreen(navController: NavController){
         TextField(value = value, onValueChange = setValue)
         Button(onClick = {
             if (value.isNotEmpty()) {
-                navController.navigate("third/$value")
+                val test = URLEncoder.encode(value)
+                val hiTest = Hi(test,0)
+                navController.navigate("third/$hiTest")
             }
         }){
             Text(text = "세번째")
@@ -96,12 +103,19 @@ fun SecondScreen(navController: NavController){
         }){
             Text(text = "뒤로가기")
         }
+        LazyColumn{
+            for(i in 1..100) {
+                items(i){ i ->
+                    Text(text = i.toString())
+                }
+            }
+        }
 
 
     }
 }
 @Composable
-fun ThirdScreen(navController: NavController,value : String){
+fun ThirdScreen(navController: NavController, value: Hi){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -109,7 +123,7 @@ fun ThirdScreen(navController: NavController,value : String){
     ) {
         Text(text = "세 번째 화면")
         Spacer(modifier= Modifier.height(16.dp))
-        Text(text = value)
+        Text(text = value.toString())
         Button(onClick = {
             navController.navigateUp()
         }){
@@ -119,3 +133,6 @@ fun ThirdScreen(navController: NavController,value : String){
 
     }
 }
+
+@Parcelize
+data class Hi(val a : String, val b : Int) : Parcelable

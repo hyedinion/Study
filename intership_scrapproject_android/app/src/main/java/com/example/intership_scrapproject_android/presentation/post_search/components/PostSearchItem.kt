@@ -26,8 +26,7 @@ import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProject
 fun PostSearchItem(
     keyword : String,
     item : Post,
-    modifier : Modifier = Modifier,
-    scrapped : Boolean = false
+    modifier : Modifier = Modifier
 ){
     val keywordInTitleIndex = item.title.indexOf(keyword)
     val lastKeywordInTitleIndex = keywordInTitleIndex+(keyword.length)
@@ -115,20 +114,6 @@ fun PostSearchItem(
 
         }
 
-        if (scrapped){
-            Box(
-                modifier = modifier
-                    .align(Alignment.TopEnd)
-                    .padding(10.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.TurnedIn,
-                    contentDescription = "scrapped icon",
-                    tint = MaterialTheme.colors.primary
-                )
-            }
-        }
-
     }
     Divider(color = MaterialTheme.colors.onSurface, thickness = 1.dp)
 
@@ -150,7 +135,7 @@ fun BlogSearchItemPreview() {
     )
     IntershipScrapProjectAndroidTheme {
         LazyColumn {
-            item {  PostSearchItem("",item, scrapped = true) }
+            item {  PostSearchItem("",item) }
         }
     }
 }

@@ -11,10 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.intership_scrapproject_android.data.local.Post
-import com.example.intership_scrapproject_android.data.remote.response.BlogSearchItem
-import com.example.intership_scrapproject_android.presentation.blog_search_scrap.BlogScrapEvent
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBar
-import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBarRoute
 import com.example.intership_scrapproject_android.presentation.post_detail.PostDetailEvent
 import com.example.intership_scrapproject_android.presentation.post_detail.PostDetailViewModel
 import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme

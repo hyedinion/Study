@@ -1,5 +1,6 @@
 package com.example.intership_scrapproject_android.presentation.post.components
 
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -7,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.intership_scrapproject_android.presentation.main.bottom_bar.BottomBar
 import com.example.intership_scrapproject_android.presentation.post.PostEvent
 import com.example.intership_scrapproject_android.presentation.post.PostViewModel
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -63,9 +66,20 @@ fun PostScreen(
             PostLazyColumn(
                 navController = navController,
                 state.postOrder,
-                state.posts
+                state.posts,
+                dismissItem = {viewModel.onEvent(PostEvent.DeletePost(it))}
             )
 
         }
+    }
+
+    if (state.deletePostSuccess){
+        viewModel.onEvent(PostEvent.deletePostHandled)
+        Toast.makeText(LocalContext.current,"post를 삭제하였습니다.", Toast.LENGTH_LONG).show()
+    }
+
+    if (state.showDeleteErrorToastMessage){
+        viewModel.onEvent(PostEvent.ShowDeleteErrorToastHandled)
+        Toast.makeText(LocalContext.current,state.DeleteErrorToastMessage, Toast.LENGTH_LONG).show()
     }
 }

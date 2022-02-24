@@ -12,7 +12,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.intership_scrapproject_android.core.util.OrderType
 import com.example.intership_scrapproject_android.ui.theme.IntershipScrapProjectAndroidTheme
 
 

@@ -1,23 +1,18 @@
 package com.example.intership_scrapproject_android.presentation.post_search
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.intership_scrapproject_android.core.util.OrderType
 import com.example.intership_scrapproject_android.data.local.Post
-import com.example.intership_scrapproject_android.data.local.Status
 import com.example.intership_scrapproject_android.domain.use_case.GetPostUseCase
-import com.example.intership_scrapproject_android.domain.use_case.PostSearchUseCase
-import com.example.intership_scrapproject_android.presentation.blog_search.BlogSearchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,20 +45,14 @@ class PostSearchViewModel @Inject constructor(
     }
 
     private fun getPosts(query : String){
-        val searchResult : MutableList<Post> = mutableListOf()
         getPostsJob?.cancel()
         getPostsJob = getPostsUseCase(OrderType.SCRAP_DATE).data
+            ?.filter {
+                it[0].title.contains(query) || it[0].description.contains(query)
+            }
             ?.onEach { posts ->
-                posts.forEach { post ->
-                    if (post.title.contains(query)){
-                        searchResult.add(post)
-                    }
-                    else if (post.description.contains(query)){
-                        searchResult.add(post)
-                    }
-                }
                 _state.value = state.value.copy(
-                    postSearchResult = searchResult,
+                    postSearchResult = posts
                 )
             }
             ?.launchIn(viewModelScope)
